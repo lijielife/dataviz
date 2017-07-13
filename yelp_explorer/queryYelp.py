@@ -89,14 +89,15 @@ def query_api(term, location):
 	# print(u'{0} businesses found, querying business info ' \
 	# 	'for the top result "{1}" ...'.format(len(businesses), business_id))
 	
-	# output = {}
+	ratings = {}
+	num_reviews = {}
 	for i in range(0, len(businesses)):
 		business_name = businesses[i]['name']
-		business_rating = businesses[i]['rating']
-		# output[business_name] = business_rating
-		print(business_name + ' has a {0} rating'.format(business_rating))
+		ratings[business_name] = businesses[i]['rating']
+		num_reviews[business_name] = businesses[i]['review_count']
+		# print(business_name + ' has a {0} rating'.format(business_rating))
 	
-	# return output
+	return ratings, num_reviews
 	# response = get_business(token, business_id)
 
 	# print(u'Result for business "{0}" found:'.format(business_id))

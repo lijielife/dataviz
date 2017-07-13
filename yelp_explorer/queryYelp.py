@@ -21,14 +21,15 @@ TOKEN_PATH = '/oauth2/token'
 GRANT_TYPE = 'client_credentials'
 
 # Defaults for our simple example.
-DEFAULT_TERM = 'dinner'
-DEFAULT_LOCATION = 'San Francisco, CA'
-SEARCH_LIMIT = 3
+DEFAULT_TERM = 'restaurant'
+DEFAULT_LOCATION = '95148'
+SEARCH_LIMIT = 50
 
-def get_search_params(lat, long):
+def get_search_params(term, location):
 	params = {}
-	params["term"] = "restaurant"
-	params["ll"] = "{}, {}".format(str(lat), str(long))
+	params['term'] = term
+	params['location'] = location
+	# params["ll"] = "{}, {}".format(str(lat), str(long))
 	params["radius_filter"] = "2000"
 	params["limit"] = "10"
 	return params
@@ -74,8 +75,8 @@ def get_business(token, business_id):
 
 def query_api(term, location):
 	token = obtain_token(API_HOST, TOKEN_PATH)
-
-	response = search(token, term, location)
+	params = get_search_params(DEFAULT_TERM, DEFAULT_LOCATION)
+	response = search(token, params['term'], params['location'])
 
 	businesses = response.get('businesses')
 
@@ -83,15 +84,19 @@ def query_api(term, location):
 		print(u'No businesses for {0} in {1} found.'.format(term, location))
 		return
 
-	business_id = businesses[0]['id']
+	print(u'{0} businesses found'.format(len(businesses)))
 
-	print(u'{0} businesses found, querying business info ' \
-		'for the top result "{1}" ...'.format(
-			len(businesses), business_id))
-	response = get_business(token, business_id)
+	# print(u'{0} businesses found, querying business info ' \
+	# 	'for the top result "{1}" ...'.format(len(businesses), business_id))
+	
+	for i in range(0, len(businesses)):
+		business_id = businesses[i]['id']
+		print(business_id)
+	
+	# response = get_business(token, business_id)
 
-	print(u'Result for business "{0}" found:'.format(business_id))
-	pprint.pprint(response, indent=2)
+	# print(u'Result for business "{0}" found:'.format(business_id))
+	# pprint.pprint(response, indent=2)
 
 
 def main():

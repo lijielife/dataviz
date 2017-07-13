@@ -1,4 +1,4 @@
-# yelp_explorer - WIP
+# yelp_explorer; under dev
 
 Interactive query tool for Yelp data. Built using Bokeh, the Yelp API, and other Python libraries. 
 

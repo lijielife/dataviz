@@ -27,8 +27,8 @@ SEARCH_LIMIT = 50
 
 def get_search_params(term, location):
 	params = {}
-	params['term'] = term
-	params['location'] = location
+	params['term'] = DEFAULT_TERM
+	params['location'] = DEFAULT_LOCATION
 	# params["ll"] = "{}, {}".format(str(lat), str(long))
 	params["radius_filter"] = "2000"
 	params["limit"] = "10"
@@ -75,7 +75,7 @@ def get_business(token, business_id):
 
 def query_api(term, location):
 	token = obtain_token(API_HOST, TOKEN_PATH)
-	params = get_search_params(DEFAULT_TERM, DEFAULT_LOCATION)
+	params = get_search_params(term, location)
 	response = search(token, params['term'], params['location'])
 
 	businesses = response.get('businesses')
@@ -89,43 +89,42 @@ def query_api(term, location):
 	# print(u'{0} businesses found, querying business info ' \
 	# 	'for the top result "{1}" ...'.format(len(businesses), business_id))
 	
+	# output = {}
 	for i in range(0, len(businesses)):
-		business_id = businesses[i]['id']
-		print(business_id)
+		business_name = businesses[i]['name']
+		business_rating = businesses[i]['rating']
+		# output[business_name] = business_rating
+		print(business_name + ' has a {0} rating'.format(business_rating))
 	
+	# return output
 	# response = get_business(token, business_id)
 
 	# print(u'Result for business "{0}" found:'.format(business_id))
 	# pprint.pprint(response, indent=2)
 
 
-def main():
-	parser = argparse.ArgumentParser()
+# def main():
+# 	parser = argparse.ArgumentParser()
 
-	parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
-						type=str, help='Search term (default: %(default)s)')
-	parser.add_argument('-l', '--location', dest='location',
-						default=DEFAULT_LOCATION, type=str,
-						help='Search location (default: %(default)s)')
+# 	parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
+# 						type=str, help='Search term (default: %(default)s)')
+# 	parser.add_argument('-l', '--location', dest='location',
+# 						default=DEFAULT_LOCATION, type=str,
+# 						help='Search location (default: %(default)s)')
 
-	input_values = parser.parse_args()
+# 	input_values = parser.parse_args()
 
-	try:
-		query_api(input_values.term, input_values.location)
-	except HTTPError as error:
-		sys.exit(
-			'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
-				error.code,
-				error.url,
-				error.read(),
-			)
-		)
+# 	try:
+# 		query_api(input_values.term, input_values.location)
+# 	except HTTPError as error:
+# 		sys.exit(
+# 			'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
+# 				error.code,
+# 				error.url,
+# 				error.read(),
+# 			)
+# 		)
 
 
-if __name__ == '__main__':
-	main()
-
-# GOALS:
-
-# play around with output of Yelp API
-# plot data for San Francisco on static chart
+# if __name__ == '__main__':
+# 	main()

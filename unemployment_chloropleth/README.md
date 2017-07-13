@@ -5,4 +5,4 @@ Generated using XML parsing libraries to manipulate SVGs in Python.
 
 Inspired by Nathan Yau’s example in Visualize This.
 
-Last updated 07/13/2017.
+Completed 12/30/2016.

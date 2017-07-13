@@ -1,13 +1,7 @@
-# yelp_explorer
+# yelp_explorer - WIP
 
-Built using Jekyll. Includes project timeline and data visualization portfolio, along with contact form.
+Interactive query tool for Yelp data. Built using Bokeh, the Yelp API, and other Python libraries. 
 
-Last updated 06/30/2017.
+Inspired by the [Bokeh IMDb demo](https://demo.bokehplots.com/apps/movies)
 
-**Credits**
-
-[Andrew Banchich](https://andrewbanchich.gitlab.io/forty-jekyll-theme/)
-
-[Nathan Randecker](https://github.com/nrandecker/particle)
-
-[CodyHouse](https://codyhouse.co/)
+Last updated 07/13/2017.

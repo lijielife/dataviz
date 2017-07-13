@@ -1,6 +1,4 @@
-# unemployment_chloropleth
-
-![alt_text](https://github.com/swetharevanur/dataviz/blob/master/unemployment_chloropleth/map.svg "Unemployment Chloropleth")
+# [unemployment_chloropleth](https://swetharevanur.github.io/2016/12/31/unemployment.html)
 
 Chloropleth map of county-level unemployment rates from August 2010.
 Generated using XML parsing libraries to manipulate SVGs in Python.

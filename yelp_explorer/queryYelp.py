@@ -23,7 +23,7 @@ GRANT_TYPE = 'client_credentials'
 # Defaults for our simple example.
 DEFAULT_TERM = 'dinner'
 DEFAULT_LOCATION = 'San Francisco, CA'
-SEARCH_LIMIT = 3
+SEARCH_LIMIT = 30
 
 def get_search_params(lat, long):
 	params = {}
@@ -85,13 +85,16 @@ def query_api(term, location):
 
 	business_id = businesses[0]['id']
 
-	print(u'{0} businesses found, querying business info ' \
-		'for the top result "{1}" ...'.format(
-			len(businesses), business_id))
-	response = get_business(token, business_id)
+	for i in range(0, len(businesses)):
+		print(businesses[i]['name'])
 
-	print(u'Result for business "{0}" found:'.format(business_id))
-	pprint.pprint(response, indent=2)
+	# print(u'{0} businesses found, querying business info ' \
+	# 	'for the top result "{1}" ...'.format(
+	# 		len(businesses), business_id))
+	# response = get_business(token, business_id)
+
+	# print(u'Result for business "{0}" found:'.format(business_id))
+	# pprint.pprint(response, indent=2)
 
 
 def main():

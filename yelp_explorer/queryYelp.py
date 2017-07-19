@@ -22,6 +22,24 @@ GRANT_TYPE = 'client_credentials'
 SEARCH_LIMIT = 50
 
 ### authorization ###
+
+# Defaults for our simple example.
+DEFAULT_TERM = 'dinner'
+DEFAULT_LOCATION = 'San Francisco, CA'
+SEARCH_LIMIT = 30
+
+def get_search_params(lat, long):
+	params = {}
+	params["term"] = "restaurant"
+	params["ll"] = "{}, {}".format(str(lat), str(long))
+	params["radius_filter"] = "2000"
+	params["limit"] = "10"
+	return params
+
+=======
+### authorization ###
+>>>>>>> dev
+>>>>>>> Stashed changes
 def obtain_token(host, path):
 	url = '{0}{1}'.format(host, quote(path.encode('utf8')))
 	assert CLIENT_ID, "Please supply your client_id." 
@@ -80,7 +98,18 @@ def query_api(term, location):
 	print(u'{0} businesses found'.format(len(restaurants)))	
 	return restaurants
 
+	# business_id = businesses[0]['id']
 
+	# for i in range(0, len(businesses)):
+	# 	print(businesses[i]['name'])
+
+	# print(u'{0} businesses found, querying business info ' \
+	# 	'for the top result "{1}" ...'.format(
+	# 		len(businesses), business_id))
+	# response = get_business(token, business_id)
+
+	# print(u'Result for business "{0}" found:'.format(business_id))
+	# pprint.pprint(response, indent=2)
 
 
 # def main():
@@ -107,4 +136,8 @@ def query_api(term, location):
 
 
 # if __name__ == '__main__':
+<<<<<<< Updated upstream
 # 	main()
+=======
+# 	main()
+>>>>>>> Stashed changes

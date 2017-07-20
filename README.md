@@ -1,3 +1,3 @@
 # dataviz
 
-Collection of data visualization projects, both complete and in progress.
+Portfolio of data visualization projects, both complete and in progress.

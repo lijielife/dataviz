@@ -9,17 +9,19 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.parse import urlencode
 
-# OAuth credentials
+### OAuth credentials ###
 CLIENT_ID = "MVOMdRmFhEvQPa_ApLujOA"
 CLIENT_SECRET = "hWt7uMeAmeYuN8IudUzrSTPFvEV0VF2lXoNE831XYGVbH63jWgaqWlc6AucTgA2l"
 
-# API constants
+
+### API constants ###
 API_HOST = 'https://api.yelp.com'
 SEARCH_PATH = '/v3/businesses/search'
 BUSINESS_PATH = '/v3/businesses/'  # Business ID will come after slash.
 TOKEN_PATH = '/oauth2/token'
 GRANT_TYPE = 'client_credentials'
 SEARCH_LIMIT = 50
+
 
 ### authorization ###
 def obtain_token(host, path):
@@ -38,6 +40,7 @@ def obtain_token(host, path):
 	token = response.json()['access_token']
 	return token
 
+
 ### make POST requests ###
 def request(host, path, token, url_params=None):
 	url_params = url_params or {}
@@ -49,6 +52,7 @@ def request(host, path, token, url_params=None):
 	response = requests.request('GET', url, headers = headers, params = url_params)
 	return response.json()	
 
+
 ### initialize search parameters ###
 def set_search_params(term, location):
 	params = {}
@@ -58,14 +62,17 @@ def set_search_params(term, location):
 	params['radius_filter'] = "40000"
 	return params
 
+
 def search(token, params):
 	params['term'] = params['term'].replace(' ', '+')
 	params['location'] = params['location'].replace(' ', '+'),
 	return request(API_HOST, SEARCH_PATH, token, url_params = params)
 
+
 def get_business(token, business_id):
 	business_path = BUSINESS_PATH + business_id
 	return request(API_HOST, business_path, token)
+
 
 def query_api(term, location):
 	token = obtain_token(API_HOST, TOKEN_PATH)
@@ -79,32 +86,3 @@ def query_api(term, location):
 
 	print(u'{0} businesses found'.format(len(restaurants)))	
 	return restaurants
-
-
-
-
-# def main():
-# 	parser = argparse.ArgumentParser()
-
-# 	parser.add_argument('-q', '--term', dest='term', default=DEFAULT_TERM,
-# 						type=str, help='Search term (default: %(default)s)')
-# 	parser.add_argument('-l', '--location', dest='location',
-# 						default=DEFAULT_LOCATION, type=str,
-# 						help='Search location (default: %(default)s)')
-
-# 	input_values = parser.parse_args()
-
-# 	try:
-# 		query_api(input_values.term, input_values.location)
-# 	except HTTPError as error:
-# 		sys.exit(
-# 			'Encountered HTTP error {0} on {1}:\n {2}\nAbort program.'.format(
-# 				error.code,
-# 				error.url,
-# 				error.read(),
-# 			)
-# 		)
-
-
-# if __name__ == '__main__':
-# 	main()

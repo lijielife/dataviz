@@ -54,12 +54,13 @@ def request(host, path, token, url_params=None):
 
 
 ### initialize search parameters ###
-def set_search_params(term, location):
+def set_search_params(term, location, price):
 	params = {}
 	params['term'] = term
 	params['location'] = location
+	params['price'] = price
 	params['limit'] = SEARCH_LIMIT
-	params['radius_filter'] = "40000"
+	params['radius_filter'] = "20000"
 	return params
 
 
@@ -74,9 +75,9 @@ def get_business(token, business_id):
 	return request(API_HOST, business_path, token)
 
 
-def query_api(term, location):
+def query_api(term, location, price):
 	token = obtain_token(API_HOST, TOKEN_PATH)
-	params = set_search_params(term, location)
+	params = set_search_params(term, location, price)
 	response = search(token, params)
 	restaurants = response.get('businesses')
 

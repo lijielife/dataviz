@@ -14,7 +14,7 @@ from queryYelp import query_api
 ### configure input widgets ###
 term = TextInput(title="Search Term", value='Restaurants')
 location = TextInput(title="Location", value='San Francisco')
-# num_dollars = CheckboxGroup(labels=["$", "$$", "$$$", "$$$$"], active=[0, 1, 2, 3])
+num_dollars = CheckboxGroup(labels=["$", "$$", "$$$", "$$$$"], active=[0, 1, 2, 3])
 pre = PreText(text="")
 
 
@@ -59,7 +59,9 @@ def update_title(attrname, old, new):
 ### run query ###
 def select_data():
 	## fetch data from initial default query ##
-	results = query_api(term.value, location.value)
+	price_levels = [x+1 for x in num_dollars.active]
+	price_levels_str = ','.join([str(i) for i in price_levels])
+	results = query_api(term.value, location.value, price_levels_str)
 	restaurant_meta = pd.DataFrame(results, columns=['name', 'price', 'rating', 'review_count'])
 
 	## clean ##
@@ -71,7 +73,7 @@ def select_data():
 	# very simple implementation
 	scaled_rating_scaled = [x/max(restaurant_meta['rating']) for x in restaurant_meta['rating']]
 	scaled_review_count = [x/max(restaurant_meta['review_count']) for x in restaurant_meta['review_count']]
-	restaurant_meta['score'] = [(x+y)/2 for x,y in zip(*[scaled_rating_scaled, scaled_review_count])]
+	restaurant_meta['score'] = [(0.7*x + 0.3*y) for x,y in zip(*[scaled_rating_scaled, scaled_review_count])]
 	restaurant_meta = restaurant_meta.sort_values(restaurant_meta.columns[4], ascending = False) # sort by score
 
 	## add in plot color and size ##
@@ -114,11 +116,12 @@ def init_update():
 controls = [term, location]
 for control in controls:
     control.on_change('value', lambda attr, old, new: update())
+num_dollars.on_change('active', lambda attr, old, new: update())
 
 ### add to document ###
 # 'scale_width' also looks nice with this example
 sizing_mode = 'fixed'  
-widgets = [term, location, pre]
+widgets = [term, location, num_dollars, pre]
 inputs = widgetbox(*widgets, sizing_mode=sizing_mode)
 l = layout([
     [desc],

@@ -9,7 +9,8 @@ from bokeh.models import HoverTool, ColumnDataSource, Div
 from bokeh.models.widgets import TextInput, PreText, CheckboxGroup, Slider
 from bokeh.models.widgets.groups import CheckboxGroup
 from bokeh.plotting import figure
-from bokeh.embed import components
+from bokeh.embed import autoload_server, components
+from bokeh.client import push_session
 from queryYelp import query_api
 
 
@@ -136,6 +137,9 @@ init_update()  # initial load of the data
 
 curdoc().add_root(l)
 curdoc().title = "Yelp Explorer"
+
+# session = push_session(curdoc())
+# script = autoload_server(l, session_id=session.id)
 
 script, div = components(l)
 print(script)

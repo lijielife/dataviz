@@ -1,13 +1,11 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.css" type="text/css" />
-    <script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-0.12.0.min.js"></script>
-    {{ script | safe }}
-  </head>
-  <body>
-    <div class=page>
-      <h1>Header text</h1>
-      {{ div | safe }}
-    </div>
-  </body>
-</html>
+from bokeh.client import push_session
+from bokeh.embed import autoload_server
+from bokeh.plotting import figure, curdoc
+
+# figure() function auto-adds the figure to curdoc()
+plot = figure()
+plot.circle([1,2], [3,4])
+
+session = push_session(curdoc())
+script = autoload_server(plot, session_id=session.id)
+print(script)

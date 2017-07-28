@@ -9,9 +9,9 @@ from urllib.error import HTTPError
 from urllib.parse import quote
 from urllib.parse import urlencode
 
-### OAuth credentials ###
-CLIENT_ID = "MVOMdRmFhEvQPa_ApLujOA"
-CLIENT_SECRET = "hWt7uMeAmeYuN8IudUzrSTPFvEV0VF2lXoNE831XYGVbH63jWgaqWlc6AucTgA2l"
+### OAuth credentials - insert your own ###
+CLIENT_ID = ""
+CLIENT_SECRET = ""
 
 
 ### API constants ###
@@ -63,7 +63,7 @@ def set_search_params(term, location, price):
 	params['radius_filter'] = "20000"
 	return params
 
-
+### searches Yelp database ###
 def search(token, params):
 	params['term'] = params['term'].replace(' ', '+')
 	params['location'] = params['location'].replace(' ', '+'),
@@ -74,7 +74,7 @@ def get_business(token, business_id):
 	business_path = BUSINESS_PATH + business_id
 	return request(API_HOST, business_path, token)
 
-
+### main query function ###
 def query_api(term, location, price):
 	token = obtain_token(API_HOST, TOKEN_PATH)
 	params = set_search_params(term, location, price)

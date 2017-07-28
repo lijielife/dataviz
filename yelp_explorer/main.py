@@ -6,8 +6,7 @@ from os.path import dirname, join
 from bokeh.io import curdoc, output_file, show
 from bokeh.layouts import layout, row, widgetbox
 from bokeh.models import HoverTool, ColumnDataSource, Div
-from bokeh.models.widgets import TextInput, PreText, CheckboxGroup, Slider
-from bokeh.models.widgets.groups import CheckboxGroup
+from bokeh.models.widgets import TextInput, PreText, CheckboxGroup
 from bokeh.plotting import figure
 from bokeh.embed import autoload_server, components
 from bokeh.client import push_session
@@ -18,8 +17,6 @@ from queryYelp import query_api
 term = TextInput(title="Search Term", value='Restaurants')
 location = TextInput(title="Location", value='San Francisco')
 num_dollars = CheckboxGroup(labels=["$", "$$", "$$$", "$$$$"], active=[0, 1, 2, 3])
-# add in slider for radius
-# cuisine dropdown or multi-select?
 pre = PreText(text="")
 
 
@@ -103,6 +100,7 @@ def update():
 	init_update()
 	pre.text = ""
 
+### handles initial update ###
 def init_update():
 	df = select_data()
 	p.title.text = (term.value).title() + " in " + (location.value).title()
@@ -138,11 +136,6 @@ init_update()  # initial load of the data
 curdoc().add_root(l)
 curdoc().title = "Yelp Explorer"
 
-# session = push_session(curdoc())
-# script = autoload_server(l, session_id=session.id)
-
-script = autoload_server(url="main") # note the app path
-
-# script, div = components(l)
-print(script)
-# print(div)
+### uncomment to generate script to deploy app on HTML page ###
+# script = autoload_server(url="http://localhost:5006/main")
+# print(script)

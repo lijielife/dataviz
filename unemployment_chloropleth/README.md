@@ -1,4 +1,4 @@
-# unemployment_chloropleth
+# Unemployment Chloropleth Map
 
 Chloropleth map of county-level unemployment rates from August 2010.
 Generated using XML parsing libraries to manipulate SVGs in Python.

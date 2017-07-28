@@ -141,6 +141,8 @@ curdoc().title = "Yelp Explorer"
 # session = push_session(curdoc())
 # script = autoload_server(l, session_id=session.id)
 
-script, div = components(l)
+script = autoload_server(url="main") # note the app path
+
+# script, div = components(l)
 print(script)
-print(div)
+# print(div)

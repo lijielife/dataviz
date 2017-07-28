@@ -10,6 +10,6 @@ To run:
 
 The application should open in your browser as `http://localhost:5006/main`.
 
-Inspired by the [Bokeh IMDb demo](https://demo.bokehplots.com/apps/movies)
+Inspired by the [Bokeh IMDb demo](https://demo.bokehplots.com/apps/movies).
 
 Last updated 07/28/2017.

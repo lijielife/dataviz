@@ -3,11 +3,13 @@ import pandas as pd
 import sys
 
 from os.path import dirname, join
-from bokeh.io import curdoc
+from bokeh.io import curdoc, output_file, show
 from bokeh.layouts import layout, row, widgetbox
 from bokeh.models import HoverTool, ColumnDataSource, Div
-from bokeh.models.widgets import TextInput, PreText, CheckboxGroup
+from bokeh.models.widgets import TextInput, PreText, CheckboxGroup, Slider
+from bokeh.models.widgets.groups import CheckboxGroup
 from bokeh.plotting import figure
+from bokeh.embed import components
 from queryYelp import query_api
 
 
@@ -15,6 +17,8 @@ from queryYelp import query_api
 term = TextInput(title="Search Term", value='Restaurants')
 location = TextInput(title="Location", value='San Francisco')
 num_dollars = CheckboxGroup(labels=["$", "$$", "$$$", "$$$$"], active=[0, 1, 2, 3])
+# add in slider for radius
+# cuisine dropdown or multi-select?
 pre = PreText(text="")
 
 
@@ -70,7 +74,7 @@ def select_data():
 
 	## compute score ##
 	# higher score (0-1) is better
-	# very simple implementation
+	# very simple weighted average implementation
 	scaled_rating_scaled = [x/max(restaurant_meta['rating']) for x in restaurant_meta['rating']]
 	scaled_review_count = [x/max(restaurant_meta['review_count']) for x in restaurant_meta['review_count']]
 	restaurant_meta['score'] = [(0.7*x + 0.3*y) for x,y in zip(*[scaled_rating_scaled, scaled_review_count])]
@@ -133,5 +137,6 @@ init_update()  # initial load of the data
 curdoc().add_root(l)
 curdoc().title = "Yelp Explorer"
 
-
-
+script, div = components(l)
+print(script)
+print(div)
